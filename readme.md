@@ -28,7 +28,9 @@ To run the project:
 2) Run `pip install -r requirements.txt` to install required packages
 3) Initialize the database with `python initial.py`. You can also use it to roll back database state to initial one (empty)
 4) To run a client write `python main.py "Unique_client_name"` eg: `python main.py Jaroslaw`
+5) Enjoy
 
++ To run some stress tests see files: stress_1.py, stress_2.py, stress_3.py
 
 
 Problems:
