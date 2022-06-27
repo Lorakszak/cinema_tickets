@@ -24,9 +24,10 @@ I decided to set read-consistency-level to high and write-consistency-level to l
 ![Scheme](scheme.png)
 
 To run the project:
-1) copy the content of `cluster_start` and run it in bash terminal to start the cluster and its nodes (using docker)
-2) 
-
+1) Copy the content of `cluster_start` and run it in bash terminal to start the cluster and its nodes (using docker)
+2) Run `pip install -r requirements.txt` to install required packages
+3) Initialize the database with `python initial.py`. You can also use it to roll back database state to initial one (empty)
+4) To run a client write `python main.py "Unique_client_name"` eg: `python main.py Jaroslaw`
 
 
 
