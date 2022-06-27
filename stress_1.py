@@ -51,7 +51,7 @@ class Stres_1(Client):
         )]
 
         if option == 'read': # only read client 
-            if one_room == True:
+            if one_room == True: # Read only from 1 room (120 entries)
                 counter = 0
                 while True:
                     sleep(wait)
@@ -76,7 +76,7 @@ class Stres_1(Client):
                     # print(room_occupancy)
                     counter += 1
                     print(counter)
-            if one_room == False:
+            if one_room == False: # read from all rooms (720 entries)
                 counter = 0
                 while True:
                     sleep(wait)

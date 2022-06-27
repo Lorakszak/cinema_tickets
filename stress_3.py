@@ -2,7 +2,8 @@
 # I) name: client unique name
 # II) wait: sleep between requests
 
-# eg. python stress_2.py Gerald 0.0
+# eg. python stress_3.py Dad 0.0     AND    python stress_3.py Mom 0.0
+# both in different terminals
 
 from pickletools import optimize
 import numpy as np
@@ -35,7 +36,7 @@ class Stres_3(Client):
             # row_factory=tuple_factory
         )
         self.profile_write = profile_write = ExecutionProfile(
-            consistency_level=ConsistencyLevel.ONE,
+            consistency_level=ConsistencyLevel.ALL,
             request_timeout=15,
             # row_factory=tuple_factory
         )
