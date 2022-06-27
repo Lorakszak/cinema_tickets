@@ -1,3 +1,5 @@
+# File which allow to monitor some table in Cassandra :3
+
 import numpy as np
 import pandas as pd
 
@@ -73,7 +75,7 @@ class Client():
         # 2) Check available places for chosen play, choose one/more places
 
         while True:
-            sleep(1)
+            sleep(2)
             places = [(row.room, row.row, row.place, row.occupied, row.client) for row in session.execute(
                 """
                 SELECT * FROM theater.rooms

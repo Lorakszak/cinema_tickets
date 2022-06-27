@@ -2,7 +2,7 @@
 # I) name: client unique name
 # II) wait: sleep between requests
 
-# eg. python stress_3.py Dad 0.0     AND    python stress_3.py Mom 0.0
+# eg. python stress_3.py Mom 0.0
 # both in different terminals
 
 from pickletools import optimize
@@ -41,7 +41,7 @@ class Stres_3(Client):
             # row_factory=tuple_factory
         )
     
-    def stress(self, wait=0.2):
+    def stress(self, wait=0.0):
         session = self.connect(operation_type='read')
         plays = [room for room, play in session.execute(
             """
@@ -71,18 +71,105 @@ class Stres_3(Client):
             except:
                 print('No more free places available')
             else:
+                # session_write.execute(
+                #     """
+                #     BEGIN BATCH
+                #     UPDATE theater.rooms SET client=%s WHERE room=%s
+                #     APPLY BATCH;
+                #     """, 
+                #     (self.name, seat[0])
+                # )
+
                 session_write.execute(
                     """
+                    BEGIN BATCH
                     INSERT INTO theater.rooms (room, row, place, occupied, client)
-                    VALUES(%s, %s, %s, %s, %s)
+                    VALUES(%s, %s, %s, %s, %s);
+                    APPLY BATCH;
                     """, 
                     (seat[0], seat[1], seat[2], 'yes', self.name)
                 )
+
 
             counter += 1
             print(counter)
 
 
 
+# class Stres_3(Client):
+#     def __init__(self, name, nodes, ports, rows, places, verbal=True) -> None:
+#         super().__init__(name, nodes, ports, rows, places, verbal)
+#         self.profile_read = profile_read = ExecutionProfile(
+#             consistency_level=ConsistencyLevel.ALL,
+#             request_timeout=15,
+#             # row_factory=tuple_factory
+#         )
+#         self.profile_write = profile_write = ExecutionProfile(
+#             consistency_level=ConsistencyLevel.ALL,
+#             request_timeout=15,
+#             # row_factory=tuple_factory
+#         )
+    
+#     def stress(self):
+#         session = self.connect(operation_type='read')
+#         plays = [room for room, play in session.execute(
+#             """
+#             SELECT * FROM theater.plays;
+#             """
+#         )]
+#         rooms = ['A', 'B', 'C', 'D', 'E', 'F']
+#         session_read = self.connect(operation_type='read')
+#         session_write = self.connect(operation_type='write')
+
+#         session_write.execute(
+#             """
+#             BEGIN BATCH
+#             UPDATE theater.rooms SET client=%s WHERE room=%s;
+#             APPLY BATCH;
+#             """,
+#             [self.name, 'D']
+#         )
+
+        # room = np.random.choice(rooms)[0]
+        # try:
+        #     places = [(row.room, row.row, row.place, row.occupied, row.client) for row in session_read.execute(
+        #         """
+        #         SELECT * FROM theater.rooms
+        #         WHERE room=%s AND occupied=%s
+        #         ALLOW FILTERING;
+        #         """,
+        #         [room, 'no']
+        #     )]
+            
+        #     seat = places[np.random.randint(low=0, high=len(places))]
+        # except:
+        #     print('No more free places available')
+        # else:
+        #     session_write.execute(
+        #         """
+        #         INSERT INTO theater.rooms (room, row, place, occupied, client)
+        #         VALUES(%s, %s, %s, %s, %s)
+        #         """, 
+        #         (seat[0], seat[1], seat[2], 'yes', self.name)
+        #     )
+
+
+
 stress = Stres_3(name, nodes, ports, rows, places)
-stress.stress(wait=wait)
+# stress.stress()
+stress2 = Stres_3("Don", nodes, ports, rows, places)
+
+
+
+
+from threading import Thread
+
+def func1(stress):
+    stress.stress()
+
+def func2(stress):
+    stress.stress()
+
+if __name__ == '__main__':
+    Thread(target = func1, args=(stress,)).start()
+    Thread(target = func2, args=(stress2,)).start()

@@ -1,4 +1,5 @@
-# DB info (ip, ports etc.)
+# DB info (ip, ports etc.) used in imports in other files
+
 node_1 = '172.17.0.2'
 node_2 = '172.17.0.3'
 node_3 = '172.17.0.4'

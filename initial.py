@@ -1,4 +1,4 @@
-# Code for initialization/clean-up
+# Code for initialization/clean-up of the database nodes
 
 # import section
 from cassandra.cluster import Cluster

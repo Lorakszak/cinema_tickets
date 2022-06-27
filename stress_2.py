@@ -2,7 +2,7 @@
 # I) name: client unique name
 # II) wait: sleep between requests
 
-# eg. python stress_2.py Bober 0.00
+# eg. python stress_2.py Bob 0.05 and python stress_2.py Tom 0.05
 
 from pickletools import optimize
 import numpy as np
@@ -50,7 +50,10 @@ class Stres_2(Client):
         counter = 0
         while True:
             decision = np.random.choice(['read', 'write'])
-            session_read = self.connect(operation_type='read')
+            try:
+                session_read = self.connect(operation_type='read')
+            except:
+                continue
 
             if decision == 'read':
                 sleep(wait)
@@ -76,7 +79,11 @@ class Stres_2(Client):
 
 
             elif decision == 'write': # set one random place as occupied
-                session_write = self.connect(operation_type='write')
+                try:
+                    session_write = self.connect(operation_type='write')
+                except:
+                    continue
+                
                 chosen_room = np.random.choice(plays)
                 try:
                     places = [(row.room, row.row, row.place, row.occupied, row.client) for row in session_read.execute(
@@ -94,8 +101,10 @@ class Stres_2(Client):
                 else:
                     session_write.execute(
                         """
+                        BEGIN BATCH
                         INSERT INTO theater.rooms (room, row, place, occupied, client)
-                        VALUES(%s, %s, %s, %s, %s)
+                        VALUES(%s, %s, %s, %s, %s);
+                        APPLY BATCH;
                         """, 
                         (seat[0], seat[1], seat[2], 'yes', self.name)
                     )

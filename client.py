@@ -131,8 +131,10 @@ class Client():
             else: # place not yet booked
                 session_write.execute(
                     """
+                    BEGIN BATCH
                     INSERT INTO theater.rooms (room, row, place, occupied, client)
-                    VALUES(%s, %s, %s, %s, %s)
+                    VALUES(%s, %s, %s, %s, %s);
+                    APPLY BATCH;
                     """,
                     (chosen_room, chosen_place[0]+1, chosen_place[1]+1, 'yes', self.name)
                 )
