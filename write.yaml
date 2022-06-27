@@ -1,0 +1,22 @@
+keyspace: theater
+table: rooms
+columnspec:
+  - name: room
+    size: uniform(1..2) 
+    population: uniform(1..10) 
+  - name: row
+    cluster: uniform(20..500) 
+  - name: place
+    cluster: uniform(20..500)
+  - name: occupied
+    size: uniform(2..3)
+  - name: client
+    size: uniform(3..12)
+insert:
+  partitions: fixed(1) 
+  select: fixed(1)/500 
+  batchtype: UNLOGGED         
+queries:
+   what_room:
+      cql: select *  from theater where room = ?
+      fields: samerow

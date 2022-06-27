@@ -21,7 +21,7 @@ places = 10
 
 
 # Connecting to the cluster + checking if exists/creating keyspace for the project
-cluster = Cluster([node_1]) # node_2 -> TODO
+cluster = Cluster([node_1, node_2]) # node_2 -> TODO
 session = cluster.connect()
 
 keyspaces = session.execute(
