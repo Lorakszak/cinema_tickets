@@ -107,12 +107,12 @@ class Stres_1(Client):
             names = ['Ben', 'Anakin', 'Obi-Wan', 'Asoka', 'Grevious', 'Dooku', 'Yoda']
             while True:
                 sleep(wait)
-                session_read = self.connect(operation_type='write')
+                session_write = self.connect(operation_type='write')
 
                 for room in rooms:
                     for row in range(self.rows):
                         for col in range(self.places):
-                            session.execute(
+                            session_write.execute(
                                 """
                                 INSERT INTO theater.rooms (room, row, place, occupied, client)
                                 VALUES(%s, %s, %s, %s, %s)

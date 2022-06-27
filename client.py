@@ -38,7 +38,7 @@ class Client():
             session = cluster.connect()
         return session
 
-    def book(self):
+    def book(self, show_owners=False):
         session = self.connect(operation_type='read')
         session_write = self.connect(operation_type='write')
         # 1) Check available plays, choose one
@@ -79,15 +79,26 @@ class Client():
         # print(len(places), places[0:5])
 
         # Filling room occupancy for visualization
-        room_scheme = np.zeros([12, 10])
-        for place in places:
-            if place[3] == 'no': # not occupied place
-                room_scheme[place[1]-1, place[2]-1] = 1 # 1=available
-            else: # occupied place
-                room_scheme[place[1]-1, place[2]-1] = 0 # 0=unavailable
-        room_occupancy = pd.DataFrame(room_scheme)
-        print('Place availability on given play:')
-        print(room_occupancy)
+        if not show_owners:
+            room_scheme = np.zeros([12, 10])
+            for place in places:
+                if place[3] == 'no': # not occupied place
+                    room_scheme[place[1]-1, place[2]-1] = 1 # 1=available
+                else: # occupied place
+                    room_scheme[place[1]-1, place[2]-1] = 0 # 0=unavailable
+            room_occupancy = pd.DataFrame(room_scheme)
+            print('Place availability on given play:')
+            print(room_occupancy)
+        elif show_owners:
+            room_scheme = np.empty([12, 10], dtype="S12")
+            for place in places:
+                if place[4] == '-': # not occupied place
+                    room_scheme[place[1]-1, place[2]-1] = place[4] # 1=available
+                else: # occupied place
+                    room_scheme[place[1]-1, place[2]-1] = place[4] # 0=unavailable
+            room_occupancy = pd.DataFrame(room_scheme)
+            print('Place availability on given play:')
+            print(room_occupancy)
 
         chosen_places = input(
             """

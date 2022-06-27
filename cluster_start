@@ -1,4 +1,3 @@
-# Not to run into permission errors execute:
 # sudo chmod 666 /var/run/docker.sock
 
 # Run the first node and keep it in background up and running
@@ -21,7 +20,7 @@ sleep 60
 
 
 
-# Other tries:
+# Other tries (limiting memory/ limiting swap etc.):
 # docker run --name cas1 -p 9042:9042 -m="3g" -d cassandra:3.7
 # INSTANCE1=$(docker inspect --format="{{ .NetworkSettings.IPAddress }}" cas1)
 # echo "Instance 1: ${INSTANCE1}"

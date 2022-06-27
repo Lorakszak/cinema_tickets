@@ -5,7 +5,6 @@
 # eg. python stress_2.py Bober 0.00
 
 from pickletools import optimize
-from tkinter import N
 import numpy as np
 import pandas as pd
 import sys
@@ -103,11 +102,6 @@ class Stres_2(Client):
                 
             counter += 1
             print(counter)
-
-
-        
-
-
 
 
 stress = Stres_2(name, nodes, ports, rows, places)
