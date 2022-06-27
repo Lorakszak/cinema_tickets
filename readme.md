@@ -28,7 +28,9 @@ To run the project:
 2) Run `pip install -r requirements.txt` to install required packages
 3) Initialize the database with `python initial.py`. You can also use it to roll back database state to initial one (empty)
 4) To run a client write `python main.py "Unique_client_name"` eg: `python main.py Jaroslaw`
+5) Enjoy
 
++ To run some stress tests see files: stress_1.py, stress_2.py, stress_3.py
 
 
 Problems:
@@ -37,8 +39,11 @@ Problems:
  - limiting docker container max RAM -> node crashes
 2) Stress tests I intended to run with `cassandra-stress` didn't succeded -> problem with "Failed to connect over JMX; not collecting these stats" Trying to install JMX and configuring it didn't bring any improvement and the Internet stays silent in this matter.
 3) Another try, I considered `nosqlbench` but when trying to run tests after some time the tool crashes.
+<<<<<<< HEAD
 
 
 Great thanks to authors of tutorials:
  - https://www.freecodecamp.org/news/the-apache-cassandra-beginner-tutorial/#how-to-set-up-a-cassandra-cluster
  - https://docs.datastax.com/en/developer/python-driver/3.25/getting_started/
+=======
+>>>>>>> 4e00925f6a38a9b05bcbaea6488edc71ba045a12
