@@ -77,7 +77,7 @@ session.execute(
     client text,
     PRIMARY KEY ((room), row, place)
 ) WITH compaction = { 'class' : 
-    'LeveledCompactionStrategy'}
+    'LeveledCompactionStrategy'};
     """
 )
 print('Table "rooms" successfully created')

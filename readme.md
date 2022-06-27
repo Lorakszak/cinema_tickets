@@ -35,4 +35,5 @@ Problems:
 
 1) Running more than 2 nodes on my equipment caused running out of memory problems (My laptop has 16GB RAM and 2 nodes run in docker containers + additionall system services consume 15 GB already (around 5GB for each node)) -> Any tries to limit memory consumption failed:
  - limiting docker container max RAM -> node crashes
-2) Stress tests I intended to run with cassandra-stress didn't succeded -> problem with "Failed to connect over JMX; not collecting these stats" Trying to install JMX and configuring it didn't bring any improvement and the Internet stays silent in this matter.
+2) Stress tests I intended to run with `cassandra-stress` didn't succeded -> problem with "Failed to connect over JMX; not collecting these stats" Trying to install JMX and configuring it didn't bring any improvement and the Internet stays silent in this matter.
+3) Another try, I considered `nosqlbench` but when trying to run tests after some time the tool crashes.
