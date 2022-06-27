@@ -7,10 +7,10 @@ Each room consists of 12 rows and 10 places at each row, so each room can contai
 In total there can be 6*120 places booked. (720)
 
 Database consists of 2 tables:
- - plays (storing data about currently available spectacles)
+ 1) **plays** (storing data about currently available spectacles)
   - room: room identifer
   - play: title of spectacle
- - rooms (storing data about the state of each room (occupancy))
+ 2) **rooms** (storing data about the state of each room (occupancy))
   - room: room identifier
   - row: row number
   - place: place/column number
