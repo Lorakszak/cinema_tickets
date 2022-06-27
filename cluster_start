@@ -2,12 +2,12 @@
 # sudo chmod 666 /var/run/docker.sock
 
 # Run the first node and keep it in background up and running
-docker run --name cas1 -p 9042:9042 -d cassandra:3.7 
+docker run --name cas1 -p 9042:9042 -d cassandra:3.11.13 
 INSTANCE1=$(docker inspect --format="{{ .NetworkSettings.IPAddress }}" cas1)
 echo "Instance 1: ${INSTANCE1}"
 
 # Run the second node
-docker run --name cas2 -p 9043:9042 -d -e CASSANDRA_SEEDS=$INSTANCE1 cassandra:3.7 
+docker run --name cas2 -p 9043:9042 -d -e CASSANDRA_SEEDS=$INSTANCE1 cassandra:3.11.13
 INSTANCE2=$(docker inspect --format="{{ .NetworkSettings.IPAddress }}" cas2)
 echo "Instance 2: ${INSTANCE2}"
 
@@ -16,7 +16,7 @@ sleep 60
 
 ### 3rd node is too much for my laptop to handle -> not enough memory###
 # Run the third node
-# docker run --name cas3 -p 9044:9042 -d -e CASSANDRA_SEEDS=$INSTANCE1,$INSTANCE2 cassandra:3.7 
+# docker run --name cas3 -p 9044:9042 -d -e CASSANDRA_SEEDS=$INSTANCE1,$INSTANCE2 cassandra:3.11.13 
 # INSTANCE3=$(docker inspect --format="{{ .NetworkSettings.IPAddress }}" cas3)
 
 

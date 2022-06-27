@@ -8,11 +8,30 @@ In total there can be 6*120 places booked. (720)
 
 Database consists of 2 tables:
  - plays (storing data about currently available spectacles)
+  - room: room identifer
+  - play: title of spectacle
  - rooms (storing data about the state of each room (occupancy))
+  - room: room identifier
+  - row: row number
+  - place: place/column number
+  - occupied: no/yes -> occupation identifier
+  - client: client identifier (who booked given place)
+
+As I believe the problem is read-heavy (not all clients will buy the ticket, but all would like to see available places) I used LeveledCompactionStrategy which is recommended in such case. Also having in mind the rule:
+ - `[read-consistency-level] + [write-consistency-level] > [replication-factor]`
+I decided to set read-consistency-level to high and write-consistency-level to low value (assuming 3 nodes that would be 3 and 1 respectively)
 
 ![Scheme](scheme.png)
-
 
 To run the project:
 1) copy the content of `cluster_start` and run it in bash terminal to start the cluster and its nodes (using docker)
 2) 
+
+
+
+
+Problems:
+
+1) Running more than 2 nodes on my equipment caused running out of memory problems (My laptop has 16GB RAM and 2 nodes run in docker containers + additionall system services consume 15 GB already (around 5GB for each node)) -> Any tries to limit memory consumption failed:
+ - limiting docker container max RAM -> node crashes
+2) Stress tests I intended to run with cassandra-stress didn't succeded -> problem with "Failed to connect over JMX; not collecting these stats" Trying to install JMX and configuring it didn't bring any improvement and the Internet stays silent in this matter.

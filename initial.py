@@ -53,8 +53,6 @@ else: # keyspace already exists -> delete it and reinitialize
                 """) # TODO: replication to 3 if 3 nodes used
     print('Keyspace theater successfully reinitialized')
 
-# session.set_keyspace("theater") # equivalent to session.execute("USE theater")
-
 # Creating first table for the project if not already exist (plays)
 session.execute(
     """
@@ -78,7 +76,8 @@ session.execute(
     occupied text,
     client text,
     PRIMARY KEY ((room), row, place)
-);
+) WITH compaction = { 'class' : 
+    'LeveledCompactionStrategy'}
     """
 )
 print('Table "rooms" successfully created')
