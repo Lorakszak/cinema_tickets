@@ -7,6 +7,8 @@
 # eg. python stress_1.py read True 0.0 -> reading random room with no sleep
 # eg. python stress_1.py write False 0.0 -> writing randomly to table
 
+from db_info import nodes, ports, rows, places
+from client import Client
 from pickletools import optimize
 from tkinter import N
 import numpy as np
@@ -24,8 +26,6 @@ operation = sys.argv[1]
 stress_type = sys.argv[2]
 stress_type = stress_type not in ['False', 'false']
 wait = float(sys.argv[3])
-from client import Client
-from db_info import nodes, ports, rows, places
 
 
 class Stres_1(Client):
@@ -41,7 +41,7 @@ class Stres_1(Client):
             request_timeout=15,
             # row_factory=tuple_factory
         )
-    
+
     def stress(self, option='read', wait=0.2, one_room=True):
         session = self.connect(operation_type='read')
         plays = [room for room, play in session.execute(
@@ -50,8 +50,8 @@ class Stres_1(Client):
             """
         )]
 
-        if option == 'read': # only read client 
-            if one_room == True: # Read only from 1 room (120 entries)
+        if option == 'read':  # only read client
+            if one_room == True:  # Read only from 1 room (120 entries)
                 counter = 0
                 while True:
                     sleep(wait)
@@ -67,16 +67,18 @@ class Stres_1(Client):
                     # Filling room occupancy for visualization
                     room_scheme = np.zeros([12, 10])
                     for place in places:
-                        if place[3] == 'no': # not occupied place
-                            room_scheme[place[1]-1, place[2]-1] = 1 # 1=available
-                        else: # occupied place
-                            room_scheme[place[1]-1, place[2]-1] = 0 # 0=unavailable
+                        if place[3] == 'no':  # not occupied place
+                            # 1=available
+                            room_scheme[place[1]-1, place[2]-1] = 1
+                        else:  # occupied place
+                            # 0=unavailable
+                            room_scheme[place[1]-1, place[2]-1] = 0
                     room_occupancy = pd.DataFrame(room_scheme)
                     # print('Place availability on given play:')
                     # print(room_occupancy)
                     counter += 1
                     print(counter)
-            if one_room == False: # read from all rooms (720 entries)
+            if one_room == False:  # read from all rooms (720 entries)
                 counter = 0
                 while True:
                     sleep(wait)
@@ -90,21 +92,23 @@ class Stres_1(Client):
                     # Filling room occupancy for visualization
                     room_scheme = np.zeros([12, 10])
                     for place in places:
-                        if place[3] == 'no': # not occupied place
-                            room_scheme[place[1]-1, place[2]-1] = 1 # 1=available
-                        else: # occupied place
-                            room_scheme[place[1]-1, place[2]-1] = 0 # 0=unavailable
+                        if place[3] == 'no':  # not occupied place
+                            # 1=available
+                            room_scheme[place[1]-1, place[2]-1] = 1
+                        else:  # occupied place
+                            # 0=unavailable
+                            room_scheme[place[1]-1, place[2]-1] = 0
                     room_occupancy = pd.DataFrame(room_scheme)
                     # print('Place availability on given play:')
                     # print(room_occupancy)
                     counter += 1
                     print(counter)
-                    
 
-        elif option == 'write': # only write client ???
+        elif option == 'write':  # only write client ???
             counter = 0
             rooms = ['A', 'B', 'C', 'D', 'E', 'F']
-            names = ['Ben', 'Anakin', 'Obi-Wan', 'Asoka', 'Grevious', 'Dooku', 'Yoda']
+            names = ['Ben', 'Anakin', 'Obi-Wan',
+                     'Asoka', 'Grevious', 'Dooku', 'Yoda']
             while True:
                 sleep(wait)
                 session_write = self.connect(operation_type='write')
@@ -116,13 +120,12 @@ class Stres_1(Client):
                                 """
                                 INSERT INTO theater.rooms (room, row, place, occupied, client)
                                 VALUES(%s, %s, %s, %s, %s)
-                                """, 
-                                (room, row+1, col+1, 'yes', np.random.choice(names)[0])
+                                """,
+                                (room, row+1, col+1, 'yes',
+                                 np.random.choice(names)[0])
                             )
                 counter += 1
                 print(counter)
-
-
 
 
 stress = Stres_1('Jaroslaw', nodes, ports, rows, places)
